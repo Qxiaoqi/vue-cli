@@ -12,10 +12,22 @@ async function create (projectName, options) {
   if (options.proxy) {
     process.env.HTTP_PROXY = options.proxy
   }
-
+/*   
+  举例 当前目录 Users/xiaoqi/study  使用 vue create vue-cli-study
+  cwd = Users/xiaoqi/study
+  projectName = vue-cli-study
+  inCurrent = true
+  name = study
+  targetDir = /Users/xiaoqi/study/vue-cli-study
+*/  
+  
+  
+//   当前目录
   const cwd = options.cwd || process.cwd()
   const inCurrent = projectName === '.'
+//   返回 ../到cwd 的相对路径 
   const name = inCurrent ? path.relative('../', cwd) : projectName
+//   将路径片段拼接
   const targetDir = path.resolve(cwd, projectName || '.')
 
   const result = validateProjectName(name)
