@@ -42,16 +42,15 @@ async function create (projectName, options) {
     })
     exit(1)
   }
-  // 如果路径存在，则返回true
+// 如果路径存在，则返回true
   if (fs.existsSync(targetDir)) {
     if (options.force) {
       await fs.remove(targetDir)
     } else {
-//    clearConsole() ?
+// clearConsole ？
       await clearConsole()
-
       if (inCurrent) {
-//         inquirer npm包 询问
+// inquirer npm包 选项
         const { ok } = await inquirer.prompt([
           {
             name: 'ok',
