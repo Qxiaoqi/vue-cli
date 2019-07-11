@@ -22,16 +22,17 @@ async function create (projectName, options) {
 */  
   
   
-//   当前目录
+// 当前目录
   const cwd = options.cwd || process.cwd()
   const inCurrent = projectName === '.'
-//   返回 ../到cwd 的相对路径 
+// 返回 ../到cwd 的相对路径 
   const name = inCurrent ? path.relative('../', cwd) : projectName
-//   将路径片段拼接
+// 将路径片段拼接
   const targetDir = path.resolve(cwd, projectName || '.')
-
+// 验证项目名称是否符合npm规范
   const result = validateProjectName(name)
   if (!result.validForNewPackages) {
+    // chalk高亮
     console.error(chalk.red(`Invalid project name: "${name}"`))
     result.errors && result.errors.forEach(err => {
       console.error(chalk.red.dim('Error: ' + err))
@@ -41,13 +42,16 @@ async function create (projectName, options) {
     })
     exit(1)
   }
-
+  // 如果路径存在，则返回true
   if (fs.existsSync(targetDir)) {
     if (options.force) {
       await fs.remove(targetDir)
     } else {
+//    clearConsole() ?
       await clearConsole()
+
       if (inCurrent) {
+//         inquirer npm包 询问
         const { ok } = await inquirer.prompt([
           {
             name: 'ok',
